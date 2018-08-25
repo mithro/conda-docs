@@ -196,6 +196,28 @@ defined only on Linux.
    * - LD_RUN_PATH
      - ``<build prefix>/lib``.
 
+If using the Anaconda compiler (via using `{{ compiler() }}` jinja2 functions, see https://conda.io/docs/user-guide/tasks/build-packages/define-metadata.html#host and https://conda.io/docs/user-guide/tasks/build-packages/compiler-tools.html for further information)
+the activation script will set;
+
+.. list-table::
+   :widths: 20 80
+
+   * - CFLAGS
+     - XXXX.
+   * - CXXFLAGS
+     - XXXX.
+   * - LDFLAGS
+     - XXXX.
+
+If your codebase is not compatible with the default flags provided, you may need to filter them out using something like;
+```
+export CXXFLAGS="$(echo $CXXFLAGS | sed -e's/-std=c++17 //')"
+export CPPFLAGS="$(echo $CPPFLAGS | sed -e's/-std=c++17 //')"
+export DEBUG_CXXFLAGS="$(echo $DEBUG_CXXFLAGS | sed -e's/-std=c++17 //')"
+export DEBUG_CPPFLAGS="$(echo $DEBUG_CPPFLAGS | sed -e's/-std=c++17 //')"
+```
+
+Make sure to not just unset these values, as for proper relocatable package support the anaconda compiler needs flags XXXXX.
 
 .. _git-env:
 
